@@ -39,7 +39,6 @@ public class No121MaxProfit {
      */
     public static int maxProfit(int[] prices) {
         int[] dp = new int[2];
-        dp[0] = 0;
         dp[1] = -prices[0];
 
         for (int i = 1; i < prices.length; i++) {
