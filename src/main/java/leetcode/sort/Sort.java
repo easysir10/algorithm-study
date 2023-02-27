@@ -9,6 +9,29 @@ import java.util.Arrays;
  */
 public class Sort {
 
+    public static void main(String[] args) {
+        int[] array = {3, 6, 9, 0, 2, 5, 1, 4, 8, 7};
+        //System.out.println("冒泡排序：");
+        //System.out.println(Arrays.toString(bubbleSort(array)));
+
+        //System.out.println("选择排序：");
+        //System.out.println(Arrays.toString(selectionSort(array)));
+
+        //System.out.println("插入排序：");
+        //System.out.println(Arrays.toString(insertionSort(array)));
+
+        //System.out.println("希尔排序：");
+        //System.out.println(Arrays.toString(shellSort(array)));
+
+        // 快速排序
+        //quickSort(array, 0, 9);
+        //System.out.println(Arrays.toString(array));
+
+        // 归并排序
+        mergeSort(array, 0, 9);
+        System.out.println(Arrays.toString(array));
+    }
+
     /**
      * 冒泡排序
      *
@@ -82,6 +105,46 @@ public class Sort {
     }
 
     /**
+     * 归并排序：分而治之，分组排序后再合并结果
+     *
+     * @param arr  原始数组
+     * @param low  开始位置
+     * @param high 结束位置
+     */
+    private static void mergeSort(int[] arr, int low, int high) {
+        if (low == high) {
+            return;
+        }
+        int mid = low + ((high - low) >> 1);
+        mergeSort(arr, low, mid);
+        mergeSort(arr, mid + 1, high);
+        merge(arr, low, mid, high);
+    }
+
+    private static void merge(int[] arr, int low, int mid, int high) {
+        int[] tmpArr = new int[high - low + 1];
+        int i = 0;
+        int p1 = low;
+        int p2 = mid + 1;
+
+        while (p1 <= mid && p2 <= high) {
+            tmpArr[i++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++];
+        }
+
+        while (p1 <= mid) {
+            tmpArr[i++] = arr[p1++];
+        }
+
+        while (p2 <= high) {
+            tmpArr[i++] = arr[p2++];
+        }
+
+        for (i = 0; i < tmpArr.length; i++) {
+            arr[low + i] = tmpArr[i];
+        }
+    }
+
+    /**
      * 希尔排序
      *
      * @param array 输入数组
@@ -106,21 +169,13 @@ public class Sort {
         return array;
     }
 
-
-    public static void main(String[] args) {
-        int[] array = {3, 6, 9, 0, 2, 5, 1, 4, 8, 7};
-//        System.out.println("冒泡排序：");
-//        System.out.println(Arrays.toString(bubbleSort(array)));
-//        System.out.println("选择排序：");
-//        System.out.println(Arrays.toString(selectionSort(array)));
-//        System.out.println("插入排序：");
-//        System.out.println(Arrays.toString(insertionSort(array)));
-//        System.out.println("希尔排序：");
-//        System.out.println(Arrays.toString(shellSort(array)));
-        quickSort(array, 0, 9);
-        System.out.println(Arrays.toString(array));
-    }
-
+    /**
+     * 快速排序
+     *
+     * @param arr  数组
+     * @param low  数组开始位置
+     * @param high 数组结束位置
+     */
     private static void quickSort(int[] arr, int low, int high) {
 
         if (low < high) {
