@@ -17,19 +17,19 @@ public class Sort {
         //System.out.println("选择排序：");
         //System.out.println(Arrays.toString(selectionSort(array)));
 
-        //System.out.println("插入排序：");
-        //System.out.println(Arrays.toString(insertionSort(array)));
+        System.out.println("插入排序：");
+        System.out.println(Arrays.toString(insertionSort(array)));
 
         //System.out.println("希尔排序：");
         //System.out.println(Arrays.toString(shellSort(array)));
 
-        // 快速排序
+        //System.out.println("快速排序：");
         //quickSort(array, 0, 9);
         //System.out.println(Arrays.toString(array));
 
         // 归并排序
-        mergeSort(array, 0, 9);
-        System.out.println(Arrays.toString(array));
+        //mergeSort(array, 0, 9);
+        //System.out.println(Arrays.toString(array));
     }
 
     /**
@@ -95,7 +95,7 @@ public class Sort {
         for (int i = 0; i < array.length - 1; i++) {
             current = array[i + 1];
             int index = i;
-            while (index >= 0 && current < array[i]) {
+            while (index >= 0 && current < array[index]) {
                 array[index + 1] = array[index];
                 index--;
             }
