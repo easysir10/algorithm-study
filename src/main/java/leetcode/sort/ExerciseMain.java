@@ -1,4 +1,4 @@
-package leetcode.study;
+package leetcode.sort;
 
 import sun.security.util.Length;
 
@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class ExerciseMain {
 
     public static void main(String[] args) {
-        int[] arr = new int[]{3, 6, 8, 2, 0, 4, 9, 5};
+        int[] arr = new int[]{1, 4, 7, 2, 5, 9, 0, 8};
         mergeSort(arr, 0, 7);
         System.out.println(Arrays.toString(arr));
     }
@@ -39,6 +39,52 @@ public class ExerciseMain {
         int rightMax = getMax(arr, mid + 1, r);
 
         return Math.max(leftMax, rightMax);
+    }
+
+    private static Integer getLeftMax(int[] arr, int num) {
+        int l = 0;
+        int r = arr.length - 1;
+
+        int result = -1;
+
+        while (l < r) {
+            // 中点，这种方式可以防止溢出
+            int mid = l + ((r - l) >> 1);
+            if (arr[mid] >= num) {
+                result = mid;
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return result;
+    }
+
+    private static Integer getPartMin(int[] arr) {
+        int l = 0;
+        int r = arr.length - 1;
+
+        // 起点满足，直接返回
+        if (arr[l] < arr[l + 1]) {
+            return l;
+        }
+        // 中点满足，直接返回
+        if (arr[r] < arr[r - 1]) {
+            return r;
+        }
+
+        int result = -1;
+        while (l < r) {
+            int mid = l + ((r - l) >> 1);
+            if (arr[mid] > arr[mid - 1]) {
+                r = mid;
+            } else if (arr[mid] > arr[mid + 1]) {
+                l = mid + 1;
+            } else {
+                return mid;
+            }
+        }
+        return result;
     }
 
     private static int[] bubbleSort(int[] array) {
@@ -132,5 +178,30 @@ public class ExerciseMain {
         for (i = 0; i < tmp.length; i++) {
             arr[low + i] = tmp[i];
         }
+    }
+
+    private static int getOddNum(int[] array) {
+        int err = 0;
+        for (int i : array) {
+            err = err ^ i;
+        }
+        return err;
+    }
+
+    private static int getOddNum2(int[] array) {
+        int err = 0, err2 = 0;
+        for (int i : array) {
+            err = err ^ i;
+        }
+        // 取最右边的1的位置
+        int rightOne = err & (~err + 1);
+        // 对数组中这个位置上是0的值进行异或，得到其中一个数
+        for (int i : array) {
+            if ((i & rightOne) == 0) {
+                err2 = err2 ^ i;
+            }
+        }
+        System.out.println("err:" + (err ^ err2));
+        return err2;
     }
 }

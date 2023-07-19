@@ -66,12 +66,10 @@ public class Sort {
         if (array.length == 0) {
             return array;
         }
-        for (int i = 0; i < array.length; i++) {
+        for (int i = 0; i < array.length - 1; i++) {
             int minIndex = i;
-            for (int j = i; j < array.length; j++) {
-                if (array[j] < array[minIndex]) {
-                    minIndex = j;
-                }
+            for (int j = i + 1; j < array.length; j++) {
+                minIndex = array[j] < array[minIndex] ? j : minIndex;
             }
             int temp = array[minIndex];
             array[minIndex] = array[i];
@@ -91,15 +89,23 @@ public class Sort {
         if (array.length == 0) {
             return array;
         }
-        int current;
-        for (int i = 0; i < array.length - 1; i++) {
-            current = array[i + 1];
-            int index = i;
-            while (index >= 0 && current < array[index]) {
-                array[index + 1] = array[index];
-                index--;
+        //int current;
+        //for (int i = 0; i < array.length - 1; i++) {
+        //    current = array[i + 1];
+        //    int index = i;
+        //    while (index >= 0 && current < array[index]) {
+        //        array[index + 1] = array[index];
+        //        index--;
+        //    }
+        //    array[index + 1] = current;
+        //}
+
+        for (int i = 1; i < array.length; i++) {
+            for (int j = i - 1; j > 0 && array[j] < array[j + 1]; j--) {
+                int temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
             }
-            array[index + 1] = current;
         }
         return array;
     }
