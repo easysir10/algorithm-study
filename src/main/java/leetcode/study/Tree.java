@@ -1,5 +1,7 @@
 package leetcode.study;
 
+import sun.font.TrueTypeFont;
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -123,10 +125,6 @@ public class Tree {
         Queue<Node> queue = new LinkedList<>();
         queue.add(head);
 
-        Node curEnd = head;
-        Node nextEnd = null;
-        int curLevelNodes = 0;
-
         while (!queue.isEmpty()) {
             head = queue.poll();
             System.out.println(head.value);
@@ -140,7 +138,53 @@ public class Tree {
     }
 
     /**
-     * 二叉树最大 宽度
+     * 判断是否完全二叉树
+     * 1. 宽度优先遍历，任一节点，有右无左，返回false
+     * 2. 在1不违规情况下，遇到第一个左右子节点不全，后续节点均为叶节点
+     *
+     * @param head
+     * @return
+     */
+    public static boolean isCbt(Node head) {
+        if (null == head) {
+            return true;
+        }
+
+        LinkedList<Node> queue = new LinkedList<>();
+        queue.add(head);
+
+        boolean leaf = false;
+        Node left = null;
+        Node right = null;
+
+        while (!queue.isEmpty()) {
+            head = queue.poll();
+            left = head.left;
+            right = head.right;
+
+            if ((leaf && (null != left || null != right))
+                    || (null == left && null != right)) {
+                return false;
+            }
+
+            if (null != left) {
+                queue.add(left);
+            }
+
+            if (null != right) {
+                queue.add(right);
+            }
+
+            if (null == left || null == right) {
+                leaf = true;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 二叉树最大宽度
      *
      * @param head
      */
@@ -180,33 +224,93 @@ public class Tree {
         }
     }
 
-    public class Node {
+    /**
+     * 判断是否平衡二叉树
+     *
+     * @return
+     */
+    public static boolean isBalanced(Node head) {
+        return isBalancedProcess(head).isBalanced;
+    }
+
+    public static ReturnType isBalancedProcess(Node head) {
+        if (null == head) {
+            return new ReturnType(true, 0);
+        }
+
+        ReturnType leftFlag = isBalancedProcess(head.left);
+        ReturnType rightFlag = isBalancedProcess(head.right);
+
+        int height = Math.max(leftFlag.height, rightFlag.height) + 1;
+        // 满足左子树、右子树为平衡二叉树，且左右子树高度差小于等于1
+        boolean isBalanced = leftFlag.isBalanced && rightFlag.isBalanced
+                && (Math.abs(leftFlag.height) - rightFlag.height) <= 1;
+        return new ReturnType(isBalanced, height);
+    }
+
+    /**
+     * 找两个节点最低公共祖先
+     *
+     * @param head
+     * @param o1
+     * @param o2
+     * @return
+     */
+    public static Node lowestAncestor(Node head, Node o1, Node o2) {
+        if (null == head || head == o1 || head == o2) {
+            return head;
+        }
+
+        Node left = lowestAncestor(head.left, o1, o2);
+        Node right = lowestAncestor(head.right, o1, o2);
+
+        if (left != null && right != null) {
+            return head;
+        }
+        return left != null ? left : right;
+    }
+
+    /**
+     * 纸条对折次，一从上到下打印凹凸
+     *
+     * @param n 折纸次数
+     */
+    public static void printAllFolds(int n) {
+        printProcess(n, 1, true);
+    }
+
+    /**
+     * @param n    总共折n次
+     * @param i    从上到下第i个折痕
+     * @param down 凹或者凸，t凹，f凸
+     */
+    public static void printProcess(int n, int i, boolean down) {
+        if (i > n) {
+            return;
+        }
+        printProcess(n, i + 1, true);
+        System.out.println(down ? "凸" : "凹");
+        printProcess(n, i + 1, false);
+    }
+
+    public static void main(String[] args) {
+        printAllFolds(3);
+    }
+
+
+    public static class Node {
         public int value;
         public Node left;
         public Node right;
+    }
 
-        public int getValue() {
-            return value;
-        }
+    public static class ReturnType {
+        public boolean isBalanced;
+        public int height;
 
-        public void setValue(int value) {
-            this.value = value;
-        }
-
-        public Node getLeft() {
-            return left;
-        }
-
-        public void setLeft(Node left) {
-            this.left = left;
-        }
-
-        public Node getRight() {
-            return right;
-        }
-
-        public void setRight(Node right) {
-            this.right = right;
+        public ReturnType(boolean isBalanced, int height) {
+            this.isBalanced = isBalanced;
+            this.height = height;
         }
     }
 }
