@@ -1,7 +1,6 @@
 package leetcode.sort;
 
-import java.util.Arrays;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * @author hwang

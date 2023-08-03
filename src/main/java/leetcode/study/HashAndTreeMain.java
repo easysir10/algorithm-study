@@ -10,7 +10,7 @@ import java.util.TreeSet;
  * @data 2023/7/13
  * @description 哈希表和有序表
  */
-public class HashAndTree {
+public class HashAndTreeMain {
     public static void main(String[] args) {
 
         Node node1 = new Node();

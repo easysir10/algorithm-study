@@ -11,7 +11,7 @@ import java.util.Stack;
  * @data 2023/7/19
  * @description
  */
-public class Tree {
+public class TreeMain {
 
 
     /**
