@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * @data 2023/7/21
  * @description
  */
-public class Node {
+public class Node implements Serializable {
     public int value;
     public int in;
     public int out;
