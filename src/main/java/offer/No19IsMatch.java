@@ -30,7 +30,7 @@ public class No19IsMatch {
         boolean[][] matchArray = new boolean[m][n];
         matchArray[0][0] = true;
 
-        // 对于第0行，字符串s为空，只有当模式p的奇数位上为*时，才满足情况
+        // 对于第0行，字符串s为空，只有当模式p的奇数位（从0开始）上为*时，才满足情况
         for (int k = 2; k < n; k += 2) {
             matchArray[0][k] = matchArray[0][k - 2] && (p.charAt(k - 1) == '*');
         }
