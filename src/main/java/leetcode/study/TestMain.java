@@ -9,7 +9,19 @@ import java.io.*;
  */
 public class TestMain {
     public static void main(String[] args) throws IOException {
-        PrintStream printStream = System.out;
-        PrintWriter printWriter = System.console().writer();
+
+        int f1 = 0, f2 = 1, f3 = 1;
+
+        while (true) {
+            if (800 >= f1 * f2 && 800 < f2 * f3) {
+                System.out.println(f1 + "," + f2);
+                break;
+            }
+            f1 = f2;
+            f2 = f3;
+            f3 = f1 + f2;
+        }
+
+
     }
 }
