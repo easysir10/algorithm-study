@@ -7,6 +7,12 @@ package leetcode.classic150;
  */
 public class No020 {
 
+    public static void main(String[] args) {
+        No020 no020 = new No020();
+        System.out.println(no020.romanToInt("MMMDCCCLXXIX"));
+        System.out.println('\0');
+    }
+
     /**
      * 罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。
      * <p>
