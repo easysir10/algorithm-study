@@ -1,10 +1,5 @@
 package leetcode.classic150;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author hwang
  * @data 2023/11/13

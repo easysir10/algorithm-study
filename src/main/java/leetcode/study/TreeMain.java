@@ -1,7 +1,5 @@
 package leetcode.study;
 
-import sun.font.TrueTypeFont;
-
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;

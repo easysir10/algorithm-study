@@ -1,9 +1,6 @@
 package leetcode.study;
 
-import javafx.beans.binding.When;
-
 import java.util.Stack;
-import java.util.TreeSet;
 
 /**
  * @author hwang
