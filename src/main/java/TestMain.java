@@ -10,7 +10,62 @@ import java.util.Map;
  */
 public class TestMain {
     public static void main(String[] args) {
+        TestMain testMain = new TestMain();
+        System.out.println(testMain.myAtoi("   -042"));
+    }
 
+    /**
+     * 两两交换链表中的节点
+     * @param head 头节点
+     * @return 交换后的头节点
+     */
+    public ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode newHead = head.next;
+        ListNode tmpNode = head.next.next;
+        head.next.next = head;
+        head.next = swapPairs(tmpNode);
+
+        return newHead;
+    }
+
+    /**
+     * 字符串转换整数
+     * @param s 字符串
+     * @return 转换后的整数
+     */
+    public int myAtoi(String s) {
+        // 去除前后空格
+        s = s.trim();
+        if (s.isEmpty()) {
+            return 0;
+        }
+        char[] chars = s.toCharArray();
+
+        // 判断符号
+        int flag = 1;
+        int i = 0;
+        char first = chars[0];
+        if (first == '-' || first == '+') {
+            i = 1;
+            flag = first == '-' ? -1 : 1;
+        }
+
+        int res = 0;
+        for (; i < chars.length; i++) {
+            if (chars[i] < '0' || chars[i] > '9') {
+                break;
+            }
+            int num = chars[i] - '0';
+            if (res > (Integer.MAX_VALUE - num) / 10) {
+                return flag == -1 ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+            }
+            res = res * 10 + num;
+        }
+
+        return flag * res;
     }
 
     /**
@@ -108,5 +163,22 @@ public class TestMain {
             }
         }
         return new int[2];
+    }
+
+    public static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 }
