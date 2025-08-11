@@ -1,6 +1,8 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,7 +13,141 @@ import java.util.Map;
 public class TestMain {
     public static void main(String[] args) {
         TestMain testMain = new TestMain();
-        System.out.println(testMain.myAtoi("   -042"));
+        System.out.println(testMain.letterCombinations("23"));
+    }
+
+    /**
+     * 电话号码的字母组合
+     * @param digits 数字字符串
+     * @return 所有的组合
+     */
+    public List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<>();
+        if (null == digits || digits.isEmpty()) {
+            return res;
+        }
+        letterCombinationsBack(digits, 0, new StringBuilder(), res);
+        return res;
+    }
+
+    private void letterCombinationsBack(String digits, int index, StringBuilder sb, List<String> res) {
+        if (index == digits.length()) {
+            res.add(sb.toString());
+            return;
+        }
+        String letters = phoneMap.get(digits.charAt(index));
+        for (char c : letters.toCharArray()) {
+            sb.append(c);
+            letterCombinationsBack(digits, index + 1, sb, res);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+
+    private static final Map<Character, String> phoneMap = new HashMap<>() {{
+        put('2', "abc");
+        put('3', "def");
+        put('4', "ghi");
+        put('5', "jkl");
+        put('6', "mno");
+        put('7', "pqrs");
+        put('8', "tuv");
+        put('9', "wxyz");
+    }};
+
+    /**
+     * 最接近的三数之和
+     * @param nums 数字数组
+     * @param target 目标值
+     * @return 与目标值最接近的三个数的和
+     */
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < nums.length - 2; i++) {
+            int left = i + 1;
+            int right = nums.length - 1;
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (Math.abs(sum - target) < Math.abs(res - target)) {
+                    res = sum;
+                }
+                if (sum > target) {
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 括号生成
+     * @param n 括号对数
+     * @return 可能生成的括号情况
+     */
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        generateParenthesisBack(res, new StringBuilder(), n, n);
+        return res;
+    }
+
+    private void generateParenthesisBack(List<String> res, StringBuilder sb, int lNum, int rNum) {
+        if (lNum == 0 && rNum == 0) {
+            res.add(sb.toString());
+            return;
+        }
+        if (lNum > 0) {
+            sb.append('(');
+            generateParenthesisBack(res, sb, lNum - 1, rNum);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        if (rNum > lNum) {
+            sb.append(')');
+            generateParenthesisBack(res, sb, lNum, rNum - 1);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+
+    /**
+     * 四数之和
+     * @param nums 数字数组
+     * @param target 目标值
+     * @return 满足条件的数组
+     */
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+
+        for (int i = 0; i < nums.length - 3; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            for (int j = i + 1; j < nums.length - 2; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) {
+                    continue;
+                }
+                int m = j + 1;
+                int n = nums.length - 1;
+                while (m < n) {
+                    long sum = (long)nums[i] + (long)nums[j] + (long)nums[m] + (long)nums[n];
+                    if (sum == target) {
+                        res.add(Arrays.asList(nums[i], nums[j], nums[m], nums[n]));
+                        while (m < n && nums[m] == nums[++m])
+                            ;
+                        while (m < n && nums[n] == nums[--n])
+                            ;
+                    } else if (sum < target) {
+                        while (m < n && nums[m] == nums[++m])
+                            ;
+                    } else {
+                        while (m < n && nums[n] == nums[--n])
+                            ;
+                    }
+                }
+            }
+        }
+        return res;
     }
 
     /**
