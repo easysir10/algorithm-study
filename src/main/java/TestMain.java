@@ -13,7 +13,101 @@ import java.util.Map;
 public class TestMain {
     public static void main(String[] args) {
         TestMain testMain = new TestMain();
-        System.out.println(testMain.searchInsert(new int[] {1, 3, 5, 6}, 0));
+        System.out.println(Arrays.toString(testMain.searchRange(new int[] {1}, 1)));
+    }
+
+    /**
+     * 二叉树中序遍历
+     * @param root 根节点
+     * @return 遍历结果
+     */
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        inorder(root, res);
+        return res;
+    }
+
+    private void inorder(TreeNode root, List<Integer> res){
+        if (root == null){
+            return;
+        }
+        inorder(root.left, res);
+        res.add(root.val);
+        inorder(root.right, res);
+    }
+
+    /**
+     * 在排序数组中查找元素的第一个和最后一个值位置
+     * @param nums 数组
+     * @param target 目标值
+     * @return 第一个和最后一个值位置
+     */
+    public int[] searchRange(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        int[] res = new int[] {-1, -1};
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (nums[mid] == target) {
+                for (int i = mid; i >= left; i--) {
+                    if (nums[i] != target) {
+                        break;
+                    }
+                    res[0] = i;
+                }
+                for (int i = mid; i <= right; i++) {
+                    if (nums[i] != target) {
+                        break;
+                    }
+                    res[1] = i;
+                }
+                break;
+            } else if (nums[mid] > target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return res;
+    }
+
+    /**
+     * 删除排序链表中的重复元素
+     * @param head 链表头节点
+     * @return 删除后的链表头节点
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode cur = head;
+        while (cur != null && cur.next != null) {
+            if (cur.next.val == cur.val) {
+                cur.next = cur.next.next;
+            } else {
+                cur = cur.next;
+            }
+        }
+        return head;
+    }
+
+    /**
+     * 二分查找
+     * @param x 数字
+     * @return 舍去小数部分的算数平方根
+     */
+    public int mySqrt(int x) {
+        int left = 1;
+        int right = x;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (x / mid == mid) {
+                return mid;
+            } else if (x / mid > mid) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return right;
     }
 
     /**
@@ -337,6 +431,25 @@ public class TestMain {
         ListNode(int val, ListNode next) {
             this.val = val;
             this.next = next;
+        }
+    }
+
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
         }
     }
 }
