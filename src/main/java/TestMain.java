@@ -17,6 +17,172 @@ public class TestMain {
     }
 
     /**
+     * 最长公共子序列
+     * @param text1 text1
+     * @param text2 text2
+     * @return 最长 公共子序列 的长度
+     */
+    public int longestCommonSubsequence(String text1, String text2) {
+        return 0;
+    }
+
+    /**
+     * 判断子序列
+     */
+    public boolean isSubsequence(String s, String t) {
+        if (null == s || s.isEmpty()) {
+            return true;
+        }
+        int n = s.length();
+        int[] dp = new int[n];
+        dp[0] = t.indexOf(s.charAt(0));
+        for (int i = 1; i < n; i++) {
+            dp[i] = -1;
+        }
+
+        for (int i = 1; i < n; i++) {
+            if (dp[i - 1] == -1) {
+                return false;
+            }
+            char c = s.charAt(i);
+            for (int j = dp[i - 1] + 1; j < t.length(); j++) {
+                if (t.charAt(j) == c) {
+                    dp[i] = j;
+                    break;
+                }
+            }
+        }
+        return dp[n - 1] != -1;
+    }
+
+    /**
+     * 最小路径和
+     */
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[] dp = new int[n];
+        dp[0] = grid[0][0];
+        for (int j = 1; j < n; j++) {
+            dp[j] = dp[j - 1] + grid[0][j];
+        }
+
+        for (int i = 1; i < m; i++) {
+            dp[0] += grid[i][0];
+            for (int j = 1; j < n; j++) {
+                dp[j] = grid[i][j] + Math.min(dp[j], dp[j - 1]);
+
+            }
+        }
+
+        return dp[n - 1];
+    }
+
+    /**
+     * 不同路径2
+     */
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int n = obstacleGrid[0].length;
+        int[] dp = new int[n];
+        dp[0] = obstacleGrid[0][0] == 1 ? 0 : 1;
+
+        for (int[] ints : obstacleGrid) {
+            for (int j = 0; j < n; j++) {
+                if (ints[j] == 1) {
+                    dp[j] = 0;
+                } else if (j > 0) {
+                    dp[j] += dp[j - 1];
+                }
+            }
+        }
+
+        return dp[n - 1];
+    }
+
+    /**
+     * 打家劫舍
+     * @param nums 房间金额
+     * @return 最高金额
+     */
+    public int rob(int[] nums) {
+        if (nums.length == 0)
+            return 0;
+        if (nums.length == 1)
+            return nums[0];
+        if (nums.length == 2)
+            return Math.max(nums[0], nums[1]);
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0], nums[1]);
+        dp[2] = Math.max(dp[1], nums[2] + dp[0]);
+
+        for (int i = 3; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+        }
+
+        return Math.max(dp[nums.length - 1], dp[nums.length - 2]);
+    }
+
+    /**
+     * 使用最小花费爬楼梯
+     * @param cost 每一级台阶花费
+     * @return 最小花费
+     */
+    public int minCostClimbingStairs(int[] cost) {
+        int one = cost[0];
+        int two = cost[1];
+        for (int i = 2; i < cost.length; i++) {
+            int cur = Math.min(one, two) + cost[i];
+            one = two;
+            two = cur;
+        }
+        return Math.min(one, two);
+    }
+
+    /**
+     * 爬楼梯
+     * @param n 楼梯数
+     * @return 爬楼梯的方案数
+     */
+    public int climbStairs(int n) {
+        if (n == 1) {
+            return 1;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        dp[2] = 2;
+        for (int i = 3; i <= n; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
+    }
+
+    /**
+     * 不同路径
+     * @param m 网格长
+     * @param n 网格宽
+     * @return 路径数
+     */
+    public int uniquePaths(int m, int n) {
+        int[] dp = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1;
+        }
+
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[j] += dp[j - 1];
+            }
+        }
+
+        return dp[n - 1];
+    }
+
+    /**
      * 二叉树中序遍历
      * @param root 根节点
      * @return 遍历结果
@@ -27,8 +193,8 @@ public class TestMain {
         return res;
     }
 
-    private void inorder(TreeNode root, List<Integer> res){
-        if (root == null){
+    private void inorder(TreeNode root, List<Integer> res) {
+        if (root == null) {
             return;
         }
         inorder(root.left, res);
