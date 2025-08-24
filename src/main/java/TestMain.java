@@ -11,6 +11,118 @@ public class TestMain {
         System.out.println(Arrays.toString(testMain.searchRange(new int[]{1}, 1)));
     }
 
+    public int trap(int[] height) {
+        if (height == null || height.length == 0) {
+            return 0;
+        }
+        int[] leftMax = new int[height.length];
+        int[] rightMax = new int[height.length];
+        leftMax[0] = height[0];
+        for (int i = 1; i < height.length; i++) {
+            leftMax[i] = Math.max(leftMax[i - 1], height[i]);
+        }
+        rightMax[height.length - 1] = height[height.length - 1];
+        for (int i = height.length - 2; i >= 0; i--) {
+            rightMax[i] = Math.max(rightMax[i + 1], height[i]);
+        }
+        int res = 0;
+        for (int i = 0; i < height.length; i++) {
+            res += Math.min(leftMax[i], rightMax[i]) - height[i];
+        }
+        return res;
+    }
+
+    public int[][] merge(int[][] intervals) {
+        if (null == intervals || intervals.length == 0 || intervals.length == 1) {
+            return intervals;
+        }
+        List<int[]> res = new ArrayList<>();
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+        int index = 1;
+        int[] cur = intervals[index - 1];
+        int[] next;
+        while (index < intervals.length) {
+            next = intervals[index];
+            if (cur[1] < next[0]) {
+                res.add(cur);
+                cur = next;
+            } else {
+                cur[1] = Math.max(cur[1], next[1]);
+            }
+            index++;
+        }
+        res.add(cur);
+        return res.toArray(new int[res.size()][]);
+    }
+
+    /**
+     * 链表环检测
+     *
+     * @param head
+     * @return
+     */
+    public boolean hasCycle(ListNode head) {
+        if (head == null) {
+            return false;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int max = Integer.MIN_VALUE;
+
+    /**
+     * 二叉树中的最大路径和
+     *
+     * @param root 根节点
+     * @return 最大路径和
+     */
+    public int maxPathSum(TreeNode root) {
+        maxPathSumProcess(root);
+        return max;
+    }
+
+    private int maxPathSumProcess(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = Math.max(0, maxPathSumProcess(root.left));
+        int right = Math.max(0, maxPathSumProcess(root.right));
+        max = Math.max(max, left + right + root.val);
+        return Math.max(left, right) + root.val;
+    }
+
+    /**
+     * 无重复字符的最长子串
+     *
+     * @param s 给定一个字符串
+     * @return 找出其中不含有重复字符的 最长 子串 的长度
+     */
+    public int lengthOfLongestSubstring(String s) {
+        if (s == null || s.isEmpty()) {
+            return 0;
+        }
+        int res = 0;
+        int left = -1;
+        Map<Character, Integer> map = new HashMap<>();
+        for (int right = 0; right < s.length(); right++) {
+            if (map.containsKey(s.charAt(right))) {
+                left = Math.max(left, map.get(s.charAt(right)));
+            }
+            map.put(s.charAt(right), right);
+            res = Math.max(res, right - left);
+        }
+        return res;
+    }
+
     public int[] twoSum2(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
