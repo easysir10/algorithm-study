@@ -1,9 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @desc
@@ -13,11 +8,52 @@ import java.util.Map;
 public class TestMain {
     public static void main(String[] args) {
         TestMain testMain = new TestMain();
-        System.out.println(Arrays.toString(testMain.searchRange(new int[] {1}, 1)));
+        System.out.println(Arrays.toString(testMain.searchRange(new int[]{1}, 1)));
+    }
+
+    public int[] twoSum2(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(target - nums[i])) {
+                return new int[]{map.get(target - nums[i]), i};
+            } else {
+                map.put(nums[i], i);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 长度最小的子数组
+     *
+     * @param target 正整数
+     * @param nums   正整数的数组
+     * @return 数组中满足其总和大于等于 target 的长度最小的 子数组的长度
+     */
+    public int minSubArrayLen(int target, int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int res = Integer.MAX_VALUE;
+        int sum = 0;
+        int left = 0;
+        int right = 0;
+
+        while (right < nums.length) {
+            sum += nums[right];
+            while (sum >= target) {
+                res = Math.min(res, right - left + 1);
+                sum -= nums[left++];
+            }
+            right++;
+        }
+
+        return res == Integer.MAX_VALUE ? 0 : res;
     }
 
     /**
      * 最长公共子序列
+     *
      * @param text1 text1
      * @param text2 text2
      * @return 最长 公共子序列 的长度
@@ -101,6 +137,7 @@ public class TestMain {
 
     /**
      * 打家劫舍
+     *
      * @param nums 房间金额
      * @return 最高金额
      */
@@ -125,6 +162,7 @@ public class TestMain {
 
     /**
      * 使用最小花费爬楼梯
+     *
      * @param cost 每一级台阶花费
      * @return 最小花费
      */
@@ -141,6 +179,7 @@ public class TestMain {
 
     /**
      * 爬楼梯
+     *
      * @param n 楼梯数
      * @return 爬楼梯的方案数
      */
@@ -162,6 +201,7 @@ public class TestMain {
 
     /**
      * 不同路径
+     *
      * @param m 网格长
      * @param n 网格宽
      * @return 路径数
@@ -184,6 +224,7 @@ public class TestMain {
 
     /**
      * 二叉树中序遍历
+     *
      * @param root 根节点
      * @return 遍历结果
      */
@@ -204,14 +245,15 @@ public class TestMain {
 
     /**
      * 在排序数组中查找元素的第一个和最后一个值位置
-     * @param nums 数组
+     *
+     * @param nums   数组
      * @param target 目标值
      * @return 第一个和最后一个值位置
      */
     public int[] searchRange(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
-        int[] res = new int[] {-1, -1};
+        int[] res = new int[]{-1, -1};
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
             if (nums[mid] == target) {
@@ -240,6 +282,7 @@ public class TestMain {
 
     /**
      * 删除排序链表中的重复元素
+     *
      * @param head 链表头节点
      * @return 删除后的链表头节点
      */
@@ -257,6 +300,7 @@ public class TestMain {
 
     /**
      * 二分查找
+     *
      * @param x 数字
      * @return 舍去小数部分的算数平方根
      */
@@ -278,7 +322,8 @@ public class TestMain {
 
     /**
      * 搜索插入的位置
-     * @param nums 数字数组
+     *
+     * @param nums   数字数组
      * @param target 目标值
      * @return 插入的位置索引
      */
@@ -300,6 +345,7 @@ public class TestMain {
 
     /**
      * 电话号码的字母组合
+     *
      * @param digits 数字字符串
      * @return 所有的组合
      */
@@ -338,7 +384,8 @@ public class TestMain {
 
     /**
      * 最接近的三数之和
-     * @param nums 数字数组
+     *
+     * @param nums   数字数组
      * @param target 目标值
      * @return 与目标值最接近的三个数的和
      */
@@ -365,6 +412,7 @@ public class TestMain {
 
     /**
      * 括号生成
+     *
      * @param n 括号对数
      * @return 可能生成的括号情况
      */
@@ -393,7 +441,8 @@ public class TestMain {
 
     /**
      * 四数之和
-     * @param nums 数字数组
+     *
+     * @param nums   数字数组
      * @param target 目标值
      * @return 满足条件的数组
      */
@@ -412,7 +461,7 @@ public class TestMain {
                 int m = j + 1;
                 int n = nums.length - 1;
                 while (m < n) {
-                    long sum = (long)nums[i] + (long)nums[j] + (long)nums[m] + (long)nums[n];
+                    long sum = (long) nums[i] + (long) nums[j] + (long) nums[m] + (long) nums[n];
                     if (sum == target) {
                         res.add(Arrays.asList(nums[i], nums[j], nums[m], nums[n]));
                         while (m < n && nums[m] == nums[++m])
@@ -434,6 +483,7 @@ public class TestMain {
 
     /**
      * 两两交换链表中的节点
+     *
      * @param head 头节点
      * @return 交换后的头节点
      */
@@ -451,6 +501,7 @@ public class TestMain {
 
     /**
      * 字符串转换整数
+     *
      * @param s 字符串
      * @return 转换后的整数
      */
@@ -488,6 +539,7 @@ public class TestMain {
 
     /**
      * 最长回文子串
+     *
      * @param s 原字符串
      * @return 最长的回文子串
      */
@@ -518,6 +570,7 @@ public class TestMain {
 
     /**
      * 寻找两个正序数组的中位数
+     *
      * @param nums1 nums1
      * @param nums2 nums2
      * @return 中位数
@@ -573,7 +626,7 @@ public class TestMain {
         int end = nums.length - 1;
         while (start < end) {
             if (nums[start] + nums[end] == target) {
-                return new int[] {map.get(nums[start]).pop(), map.get(nums[end]).pop()};
+                return new int[]{map.get(nums[start]).pop(), map.get(nums[end]).pop()};
             } else if (nums[start] + nums[end] < target) {
                 start++;
             } else {

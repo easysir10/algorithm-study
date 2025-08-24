@@ -1,7 +1,5 @@
 package leetcode.classic150;
 
-import java.util.Arrays;
-
 /**
  * @author hwang
  * @data 2023/10/18
