@@ -11,6 +11,56 @@ public class TestMain {
         System.out.println(Arrays.toString(testMain.searchRange(new int[]{1}, 1)));
     }
 
+    public boolean isPalindrome(ListNode head) {
+        // 寻找中点
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // 反转后半部分
+        ListNode behindHalf = reverseList(slow);
+
+        // 比较前后部分
+        ListNode p1 = head;
+        ListNode p2 = behindHalf;
+        boolean result = true;
+        while (p2!=null){
+            if (p1.val != p2.val) {
+                result = false;
+                break;
+            }
+            p1 = p1.next;
+            p2 = p2.next;
+        }
+        return result;
+    }
+
+    public ListNode detectCycle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        boolean hasCycle = false;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                hasCycle = true;
+                break;
+            }
+        }
+        if (!hasCycle)
+            return null;
+
+        slow = head;
+        while (slow != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
+    }
+
     public ListNode reverseBetween(ListNode head, int left, int right) {
         ListNode sentry = new ListNode();
         sentry.next = head;
