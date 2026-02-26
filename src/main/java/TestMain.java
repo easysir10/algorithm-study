@@ -11,6 +11,47 @@ public class TestMain {
         System.out.println(Arrays.toString(testMain.searchRange(new int[]{1}, 1)));
     }
 
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode sentry = new ListNode();
+        sentry.next = head;
+
+        ListNode pre = sentry;
+        for (int i = 1; i < left; i++) {
+            pre = pre.next;
+        }
+        ListNode cur = pre.next;
+        for (int i = 0; i < right - left; i++){
+            ListNode next = cur.next;
+            cur.next = next.next;
+            next.next = pre.next;
+            pre.next = next;
+        }
+        return sentry.next;
+    }
+
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = null;
+        ListNode cur = head;
+
+        while (cur != null){
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode pA = headA;
+        ListNode pB = headB;
+        while (pA != pB) {
+            pA = (pA == null) ? headB : pA.next;
+            pB = (pB == null) ? headA : pB.next;
+        }
+        return pA;
+    }
+
     public int trap(int[] height) {
         if (height == null || height.length == 0) {
             return 0;
