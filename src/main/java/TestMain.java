@@ -8,8 +8,73 @@ import java.util.*;
 public class TestMain {
     public static void main(String[] args) {
         TestMain testMain = new TestMain();
-        System.out.println(Arrays.toString(testMain.searchRange(new int[]{1}, 1)));
+        System.out.println(Arrays.toString(testMain.searchRange(new int[] {1}, 1)));
     }
+
+    public ListNode removeDuplicateNodes2(ListNode head) {
+        ListNode cur = head;
+        while (cur != null) {
+            ListNode tmp = cur;
+            while (tmp.next != null) {
+                if (tmp.next.val == cur.val){
+                    tmp.next = tmp.next.next;
+                }else {
+                    tmp = tmp.next;
+                }
+            }
+            cur = cur.next;
+        }
+        return head;
+    }
+
+    public ListNode removeDuplicateNodes(ListNode head) {
+        Set<Integer> set = new HashSet<>();
+        ListNode cur = head;
+        ListNode pre = null;
+        while (cur != null) {
+            if (set.contains(cur.val)) {
+                pre.next = cur.next;
+            }else {
+                set.add(cur.val);
+                pre = cur;
+            }
+            cur = cur.next;
+        }
+        return head;
+    }
+
+    public void deleteNode(ListNode node) {
+        if (node == null || node.next == null) return;
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+
+        ListNode cur = dummyHead;
+
+        while (cur.next != null) {
+            if (cur.next.val == val) {
+                cur.next = cur.next.next;
+            } else {
+                cur = cur.next;
+            }
+        }
+        return dummyHead.next;
+    }
+
 
     public boolean isPalindrome(ListNode head) {
         // 寻找中点
@@ -21,21 +86,19 @@ public class TestMain {
         }
 
         // 反转后半部分
-        ListNode behindHalf = reverseList(slow);
+        ListNode behindHalf = reverseList(slow.next);
 
         // 比较前后部分
         ListNode p1 = head;
         ListNode p2 = behindHalf;
-        boolean result = true;
-        while (p2!=null){
+        while (p2 != null){
             if (p1.val != p2.val) {
-                result = false;
-                break;
+                return false;
             }
             p1 = p1.next;
             p2 = p2.next;
         }
-        return result;
+        return true;
     }
 
     public ListNode detectCycle(ListNode head) {
@@ -62,28 +125,27 @@ public class TestMain {
     }
 
     public ListNode reverseBetween(ListNode head, int left, int right) {
-        ListNode sentry = new ListNode();
-        sentry.next = head;
+        ListNode tmpHead = new ListNode();
+        tmpHead.next = head;
 
-        ListNode pre = sentry;
+        ListNode pre = tmpHead;
         for (int i = 1; i < left; i++) {
             pre = pre.next;
         }
         ListNode cur = pre.next;
-        for (int i = 0; i < right - left; i++){
+        for (int i = 0; i < right - left; i++) {
             ListNode next = cur.next;
             cur.next = next.next;
             next.next = pre.next;
             pre.next = next;
         }
-        return sentry.next;
+        return tmpHead.next;
     }
 
     public ListNode reverseList(ListNode head) {
         ListNode pre = null;
         ListNode cur = head;
-
-        while (cur != null){
+        while (cur != null) {
             ListNode next = cur.next;
             cur.next = pre;
             pre = cur;
@@ -218,7 +280,7 @@ public class TestMain {
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
             if (map.containsKey(target - nums[i])) {
-                return new int[]{map.get(target - nums[i]), i};
+                return new int[] {map.get(target - nums[i]), i};
             } else {
                 map.put(nums[i], i);
             }
@@ -456,7 +518,7 @@ public class TestMain {
     public int[] searchRange(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
-        int[] res = new int[]{-1, -1};
+        int[] res = new int[] {-1, -1};
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
             if (nums[mid] == target) {
@@ -664,7 +726,7 @@ public class TestMain {
                 int m = j + 1;
                 int n = nums.length - 1;
                 while (m < n) {
-                    long sum = (long) nums[i] + (long) nums[j] + (long) nums[m] + (long) nums[n];
+                    long sum = (long)nums[i] + (long)nums[j] + (long)nums[m] + (long)nums[n];
                     if (sum == target) {
                         res.add(Arrays.asList(nums[i], nums[j], nums[m], nums[n]));
                         while (m < n && nums[m] == nums[++m])
@@ -829,7 +891,7 @@ public class TestMain {
         int end = nums.length - 1;
         while (start < end) {
             if (nums[start] + nums[end] == target) {
-                return new int[]{map.get(nums[start]).pop(), map.get(nums[end]).pop()};
+                return new int[] {map.get(nums[start]).pop(), map.get(nums[end]).pop()};
             } else if (nums[start] + nums[end] < target) {
                 start++;
             } else {
