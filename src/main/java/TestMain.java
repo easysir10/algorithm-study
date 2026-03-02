@@ -11,14 +11,59 @@ public class TestMain {
         System.out.println(Arrays.toString(testMain.searchRange(new int[] {1}, 1)));
     }
 
+    public void nextPermutation(int[] nums) {
+        // 从右向左找拐点
+        int i = nums.length - 2;
+        for (; i >= 0; i--) {
+            if (nums[i] < nums[i + 1]) {
+                break;
+            }
+        }
+
+        if (i >= 0) {
+            // 从右向左找第一个大于num[i]的并交换
+            for (int j = nums.length - 1; j >= i + 1; j--) {
+                if (nums[j] > nums[i]) {
+                    int tmp = nums[i];
+                    nums[i] = nums[j];
+                    nums[j] = tmp;
+                    break;
+                }
+            }
+        }
+
+        // 反转i+1到末尾的数组
+        int left = i + 1;
+        int right = nums.length - 1;
+        while (left < right) {
+            int tmp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = tmp;
+            left++;
+            right--;
+        }
+    }
+
+    public int kthToLast(ListNode head, int k) {
+        ListNode fast = head, slow = head;
+        for (int i = 0; i < k; i++) {
+            fast = fast.next;
+        }
+        while (fast != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow.val;
+    }
+
     public ListNode removeDuplicateNodes2(ListNode head) {
         ListNode cur = head;
         while (cur != null) {
             ListNode tmp = cur;
             while (tmp.next != null) {
-                if (tmp.next.val == cur.val){
+                if (tmp.next.val == cur.val) {
                     tmp.next = tmp.next.next;
-                }else {
+                } else {
                     tmp = tmp.next;
                 }
             }
@@ -34,7 +79,7 @@ public class TestMain {
         while (cur != null) {
             if (set.contains(cur.val)) {
                 pre.next = cur.next;
-            }else {
+            } else {
                 set.add(cur.val);
                 pre = cur;
             }
@@ -44,7 +89,8 @@ public class TestMain {
     }
 
     public void deleteNode(ListNode node) {
-        if (node == null || node.next == null) return;
+        if (node == null || node.next == null)
+            return;
         node.val = node.next.val;
         node.next = node.next.next;
     }
@@ -75,23 +121,22 @@ public class TestMain {
         return dummyHead.next;
     }
 
-
     public boolean isPalindrome(ListNode head) {
         // 寻找中点
         ListNode slow = head;
         ListNode fast = head;
-        while (fast.next != null && fast.next.next != null) {
+        while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
 
         // 反转后半部分
-        ListNode behindHalf = reverseList(slow.next);
+        ListNode behindHalf = reverseList(slow);
 
         // 比较前后部分
         ListNode p1 = head;
         ListNode p2 = behindHalf;
-        while (p2 != null){
+        while (p2 != null) {
             if (p1.val != p2.val) {
                 return false;
             }
